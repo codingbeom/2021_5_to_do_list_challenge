@@ -1,19 +1,28 @@
-const onOff = document.getElementById("choose");
-const myNum = document.getElementById("setting");
-const chNum = onOff.querySelector("input");
-const submit = onOff.querySelector("button");
-const npc = document.querySelector("h5");
-const result = document.querySelector("h2");
+const title = document.querySelector("h1");
+const timer = document.querySelector(".js-clock");
 
-function randomGame(event) {
-  event.preventDefault();
-  const random = Math.ceil(Math.random() * parseInt(myNum.value));
-  npc.innerText = `Your Number is ${myNum.value} Random Number is ${random}`;
-  if (parseInt(chNum.value) === random) {
-    result.innerText = `You Win!`;
+function getTime() {
+  const nowDate = new Date();
+  const xMasDate = new Date("2021-12-24:00:00:00");
+  const dDay = xMasDate - nowDate;
+  const day = String(Math.floor(dDay / (1000 * 60 * 60 * 24))).padStart(2, "0");
+  const hour = String(
+    Math.floor((dDay % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+  ).padStart(2, "0");
+  const min = String(
+    Math.floor((dDay % (1000 * 60 * 60)) / (1000 * 60))
+  ).padStart(2, "0");
+  const sec = String(Math.floor((dDay % (1000 * 60)) / 1000)).padStart(2, "0");
+
+  if (dDay <= 0) {
+    title.innerText = `Merry Chrismas~!!!`;
   } else {
-    result.innerText = `You lose~`;
+    timer.innerText = `${day}D ${hour}H ${min}M ${sec}S`;
   }
 }
 
-submit.addEventListener("click", randomGame);
+function init() {
+  getTime();
+  setInterval(getTime, 1000);
+}
+init();
